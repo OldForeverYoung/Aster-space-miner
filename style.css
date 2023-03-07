@@ -1,0 +1,9 @@
+canvas {
+  background-image: url('https://wallpapercave.com/wp/XepFWP9.jpg');
+  background-color: #aaa;
+  position: absolute;
+}
+body {
+  border-color: #aaa;
+  margin: 0;
+}
