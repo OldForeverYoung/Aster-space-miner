@@ -39,6 +39,7 @@ const OPTIONS = {
   draw: 1,
   offMap: 1,
   tickRate: 200,
+  console: 0,
 };
 const CONFIG = {
   WIDTH: 300,
@@ -119,7 +120,7 @@ const INTERFACE = {
     `S`,
     `↘`,
     `Q`,
-    `_`,
+    `~`,
     `X`,
     `_`,
     `_`,
@@ -550,19 +551,21 @@ function drawDeInterface() {
   ctx.fillStyle = `rgb(0,190,0)`;
   ctx.fillText(`Store:${DATA.store}`, CONFIG.WIDTH * 0.6, CONFIG.HEIGHT * 0.05);
   ctx.fillStyle = `rgb(255,10,10)`;
-  ctx.fillText(`SpeedX:${PLAYER.speedX}`, 0, CONFIG.HEIGHT * 0.02);
-  ctx.fillStyle = `rgb(255,10,10)`;
-  ctx.fillText(`SpeedY:${PLAYER.speedY}`, 0, CONFIG.HEIGHT * 0.05);
-  ctx.fillStyle = `rgb(255,10,10)`;
-  ctx.fillText(`mouseX:${MOUSE.startX}`, 0, CONFIG.HEIGHT * 0.08);
-  ctx.fillStyle = `rgb(255,10,10)`;
-  ctx.fillText(`mouseY:${MOUSE.startY}`, 0, CONFIG.HEIGHT * 0.11);
-  ctx.fillStyle = `rgb(255,10,10)`;
-  ctx.fillText(`MspeedX:${MOUSE.speedX}`, 0, CONFIG.HEIGHT * 0.14);
-  ctx.fillStyle = `rgb(255,10,10)`;
-  ctx.fillText(`MspeedY:${MOUSE.speedY}`, 0, CONFIG.HEIGHT * 0.17);
-  ctx.fillStyle = `rgb(255,10,10)`;
-  ctx.fillText(`PlMass:${PLAYER.mass}`, 0, CONFIG.HEIGHT * 0.2);
+  if (OPTIONS.console == 1) {
+    ctx.fillText(`SpeedX:${PLAYER.speedX}`, 0, CONFIG.HEIGHT * 0.02);
+    ctx.fillStyle = `rgb(255,10,10)`;
+    ctx.fillText(`SpeedY:${PLAYER.speedY}`, 0, CONFIG.HEIGHT * 0.05);
+    ctx.fillStyle = `rgb(255,10,10)`;
+    ctx.fillText(`mouseX:${MOUSE.startX}`, 0, CONFIG.HEIGHT * 0.08);
+    ctx.fillStyle = `rgb(255,10,10)`;
+    ctx.fillText(`mouseY:${MOUSE.startY}`, 0, CONFIG.HEIGHT * 0.11);
+    ctx.fillStyle = `rgb(255,10,10)`;
+    ctx.fillText(`MspeedX:${MOUSE.speedX}`, 0, CONFIG.HEIGHT * 0.14);
+    ctx.fillStyle = `rgb(255,10,10)`;
+    ctx.fillText(`MspeedY:${MOUSE.speedY}`, 0, CONFIG.HEIGHT * 0.17);
+    ctx.fillStyle = `rgb(255,10,10)`;
+    ctx.fillText(`PlMass:${PLAYER.mass}`, 0, CONFIG.HEIGHT * 0.2);
+  }
   if (PLAYER.GRAB == 1) {
     ctx.fillStyle = `rgb(255,0,0)`;
     ctx.fillText(`GRAB! (Key E)`, CONFIG.WIDTH * 0.6, CONFIG.HEIGHT * 0.09);
@@ -596,19 +599,7 @@ function drawDeInterface() {
       goKey++;
       ctx.strokeStyle = 'green';
       ctx.beginPath();
-      /*
-      ctx.roundRect(
-        INTERFACE.BUTTONX[ButLine],
-        INTERFACE.BUTTONY[ButSum],
-        INTERFACE.ButtonLenght,
-        INTERFACE.ButtonLenght,
-        [
-          INTERFACE.ButtonLenght / 5,
-          INTERFACE.ButtonLenght / 5,
-          INTERFACE.ButtonLenght / 5,
-          INTERFACE.ButtonLenght / 5,
-        ]
-      );*/
+
       roundedRect(
         ctx,
         INTERFACE.BUTTONX[ButLine],
@@ -783,6 +774,15 @@ function allInterface(Key) {
       PLAYER.speedY = 0;
       break;
     }
+    case `~`: {
+      if (OPTIONS.console == 1) {
+        OPTIONS.console = 0;
+      } else {
+        OPTIONS.console = 1;
+      }
+
+      break;
+    }
 
     default:
       console.log(`WTF?`);
@@ -822,10 +822,10 @@ function clickOnInterface(x, y) {
   }
 }
 document.addEventListener(`mouseup`, () => {
-  DATA.store++;
+  // 0_o
 });
 document.addEventListener('keydown', (Key) => {
-  // console.log(Key.code);
+  console.log(Key.code);
 
   if (Key.code == `KeyW`) {
     allInterface(`W`);
@@ -851,6 +851,9 @@ document.addEventListener('keydown', (Key) => {
   if (Key.code == `KeyE`) {
     allInterface(`E`);
   }
+  if (Key.code == `Backquote`) {
+    allInterface(`~`);
+  }
 });
 
 const GAMETICKS = {
@@ -873,6 +876,7 @@ canvas.addEventListener(
     let y = (e.clientY || e.pageY) - rect.top;
     MOUSE.startX = x;
     MOUSE.startY = y;
+    DATA.store -= 100;
   },
   false
 );
@@ -927,33 +931,3 @@ canvas.addEventListener(
   },
   false
 );
-//ебаный вертолёт )))
-
-function moveMiner(Key) {}
-
-function spin(x, y, rotationSpeed) {}
-/*
-document.getElementById(`stopSpawn`).addEventListener(`click`, () => {
-  if (OPTIONS.stopSpawn == 0) {
-    OPTIONS.stopSpawn = 1;
-    GAMETICKS.generateTimer = setInterval(DeGenerateAsteroid, CONFIG.SPAWN);
-    console.log(
-      `${GAMETICKS.generateTimer},${GAMETICKS.mathTick},${GAMETICKS.draw},${GAMETICKS.offMap}`
-    );
-  } else if (OPTIONS.stopSpawn == 1) {
-    clearInterval(GAMETICKS.generateTimer);
-    OPTIONS.stopSpawn = 0;
-    GAMETICKS.generateTimer = null;
-    console.log(
-      `${GAMETICKS.generateTimer},${GAMETICKS.mathTick},${GAMETICKS.draw},${GAMETICKS.offMap}`
-    );
-  }
-});
-*/
-/*
-document.getElementById(`imputFPS`).addEventListener(`input`, () => {
-  CONFIG.FPS = document.getElementById(`imputFPS`).value;
-  clearInterval(GAMETICKS.draw);
-  GAMETICKS.draw = setInterval(draw, 1000 / CONFIG.FPS);
-});
-*/
