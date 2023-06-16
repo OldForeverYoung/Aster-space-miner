@@ -307,11 +307,11 @@ function draw() {
 
   drawAsteroids();
   drawPlayer(PLAYER.X, PLAYER.Y);
+  ctx.restore();
   drawDeInterface(); // интерфейс выше всех
   if (DATA.frame >= CONFIG.FPS) {
     DATA.frame = 0;
   }
-  ctx.restore();
 }
 function drawAsteroids() {
   for (let asteroids = 0; asteroids < DATA.asteroidId.length; asteroids++) {
@@ -883,7 +883,7 @@ canvas.addEventListener(
     let y = (e.clientY || e.pageY) - rect.top;
     MOUSE.startX = x;
     MOUSE.startY = y;
-    DATA.store -= 100;
+    DATA.store -= MOUSE.speedX + MOUSE.speedY * 2;
   },
   false
 );
@@ -899,6 +899,18 @@ canvas.addEventListener(
       MOUSE.speedY = y - MOUSE.startY;
       PLAYER.speedX += MOUSE.speedX / 1000;
       PLAYER.speedY += MOUSE.speedY / 1000;
+    }
+    if (MOUSE.speedX < 0) {
+      MOUSE.speedX *= -1;
+    }
+    if (MOUSE.speedY < 0) {
+      MOUSE.speedY *= -1;
+    }
+    PLAYER.fuel -= MOUSE.speedX + MOUSE.speedY;
+    if (PLAYER.fuel <= 0) {
+      DATA.store -= PLAYER.maxFuel;
+      PLAYER.fuel = PLAYER.maxFuel;
+      return false;
     }
   },
   false
