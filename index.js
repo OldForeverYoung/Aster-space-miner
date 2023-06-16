@@ -298,13 +298,20 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   DATA.frame++; //фреймы на будущее (ну а вдругы)
   //ctx.beginPath();
+  ctx.save();
+  ctx.translate(
+    0 - PLAYER.X + CONFIG.WIDTH / 2,
+    0 - PLAYER.Y + CONFIG.HEIGHT / 2
+  );
   drawBase(BASE.baseX, BASE.baseY); //база на нижнем слое
+
   drawAsteroids();
   drawPlayer(PLAYER.X, PLAYER.Y);
   drawDeInterface(); // интерфейс выше всех
   if (DATA.frame >= CONFIG.FPS) {
     DATA.frame = 0;
   }
+  ctx.restore();
 }
 function drawAsteroids() {
   for (let asteroids = 0; asteroids < DATA.asteroidId.length; asteroids++) {
