@@ -316,6 +316,14 @@ function draw() {
     CONFIG.HEIGHT + CONFIG.WIDTH * 0.2
   );
   ctx.stroke();
+  ctx.strokeStyle = `rgb(255,10,10)`;
+  ctx.strokeRect(
+    0 - CONFIG.WIDTH * 0.2,
+    0 - CONFIG.WIDTH * 0.2,
+    CONFIG.WIDTH + CONFIG.WIDTH * 0.4,
+    CONFIG.HEIGHT + CONFIG.WIDTH * 0.4
+  );
+  ctx.stroke();
   drawAsteroids();
   drawPlayer(PLAYER.X, PLAYER.Y);
   ctx.restore();
@@ -477,7 +485,7 @@ function generateAsteroid() {
   DATA.asteroidId.push(DATA.ID);
   let firstValue = Math.random();
   let seconValue = Math.random();
-  DATA.asteroidsX.push(CONFIG.WIDTH * 1.1);
+  DATA.asteroidsX.push(CONFIG.WIDTH * 1.2);
   if (firstValue * 1 < 3 / 10) {
     DATA.asteroidsY.push(
       (CONFIG.HEIGHT * 2) / 10 + ((CONFIG.HEIGHT * 3) / 10) * Math.random()
@@ -507,13 +515,13 @@ function offMap() {
     let flagOffMap = 0; // flag delete this aster;
 
     if (
-      DATA.asteroidsX[asteroid] < -CONFIG.WIDTH / 10 ||
+      DATA.asteroidsX[asteroid] < -CONFIG.WIDTH * 0.2 ||
       DATA.asteroidsX[asteroid] > CONFIG.WIDTH * 1.2
     ) {
       flagOffMap = 1;
     }
     if (
-      DATA.asteroidsY[asteroid] < -CONFIG.HEIGHT / 10 ||
+      DATA.asteroidsY[asteroid] < -CONFIG.HEIGHT * 0.2 ||
       DATA.asteroidsY[asteroid] > CONFIG.HEIGHT * 1.2
     ) {
       flagOffMap = 1;
@@ -542,9 +550,9 @@ function offMap() {
     }
   } //fin flag asteroids
   if (
-    PLAYER.X < -CONFIG.WIDTH / 10 ||
+    PLAYER.X < -CONFIG.WIDTH * 0.2 ||
     PLAYER.X > CONFIG.WIDTH * 1.2 ||
-    PLAYER.Y < -CONFIG.HEIGHT / 10 ||
+    PLAYER.Y < -CONFIG.HEIGHT * 0.2 ||
     PLAYER.Y > CONFIG.HEIGHT * 1.2
   ) {
     PLAYER.X = CONFIG.WIDTH / 2;
