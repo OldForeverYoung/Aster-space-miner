@@ -123,7 +123,7 @@ const INTERFACE = {
     `~`,
     `X`,
     `_`,
-    `_`,
+    `P`,
   ],
   BUTTONX: [
     (CONFIG.WIDTH * 1) / 12,
@@ -304,7 +304,18 @@ function draw() {
     0 - PLAYER.Y + CONFIG.HEIGHT / 2
   );
   drawBase(BASE.baseX, BASE.baseY); //база на нижнем слое
-
+  //границы карты на данном этапе
+  ctx.strokeStyle = `rgb(10,255,10)`;
+  ctx.strokeRect(0, 0, CONFIG.WIDTH, CONFIG.HEIGHT);
+  ctx.stroke();
+  ctx.strokeStyle = `rgb(255,255,10)`;
+  ctx.strokeRect(
+    0 - CONFIG.WIDTH * 0.1,
+    0 - CONFIG.WIDTH * 0.1,
+    CONFIG.WIDTH + CONFIG.WIDTH * 0.2,
+    CONFIG.HEIGHT + CONFIG.WIDTH * 0.2
+  );
+  ctx.stroke();
   drawAsteroids();
   drawPlayer(PLAYER.X, PLAYER.Y);
   ctx.restore();
@@ -552,6 +563,7 @@ function dropAsteroid() {
 }
 function drawDeInterface() {
   // Demo interface
+
   ctx.font = `${parseInt(CONFIG.WIDTH / 25)}px serif`;
   ctx.fillStyle = `rgb(255,10,10)`;
   ctx.fillText(`Fuel:${PLAYER.fuel}`, CONFIG.WIDTH * 0.6, CONFIG.HEIGHT * 0.02);
@@ -781,6 +793,19 @@ function allInterface(Key) {
       PLAYER.speedY = 0;
       break;
     }
+    case `P`: {
+      //pause
+      if (OPTIONS.mathTick == 1) {
+        OPTIONS.mathTick = 0;
+        clearInterval(GAMETICKS.mathTick);
+        clearInterval(GAMETICKS.generateTimer);
+      } else {
+        OPTIONS.mathTick = 1;
+        GAMETICKS.mathTick = setInterval(mathTick, CONFIG.TICK);
+        GAMETICKS.generateTimer = setInterval(generateAsteroid, CONFIG.SPAWN);
+      }
+      break;
+    }
     case `~`: {
       if (OPTIONS.console == 1) {
         OPTIONS.console = 0;
@@ -860,6 +885,9 @@ document.addEventListener('keydown', (Key) => {
   }
   if (Key.code == `Backquote`) {
     allInterface(`~`);
+  }
+  if (Key.code == `KeyP`) {
+    allInterface(`P`);
   }
 });
 
