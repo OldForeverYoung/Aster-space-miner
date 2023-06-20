@@ -925,11 +925,11 @@ canvas.addEventListener(
 );
 
 canvas.addEventListener(
-  'mousemove' || `touchstart `,
+  'mousemove',
   (e) => {
     let rect = canvas.getBoundingClientRect();
-    let x = e.clientX || Touch.clientX - rect.left;
-    let y = e.clientY || Touch.clientY - rect.top;
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
     if (MOUSE.startX != 0 && MOUSE.startY != 0) {
       MOUSE.speedX = x - MOUSE.startX;
       MOUSE.speedY = y - MOUSE.startY;
