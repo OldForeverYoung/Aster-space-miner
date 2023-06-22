@@ -1,8 +1,6 @@
 // Import stylesheets
 import './style.css';
-window.addEventListener(`scroll`, () => {
-  console.log(window.scrollY);
-});
+
 function roundedRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
   ctx.moveTo(x, y + radius);
@@ -47,8 +45,8 @@ const CONFIG = {
   interfavePosition: 0, // 0 = vertical, 1 - horizontal
   FPS: 60,
   TICK: 1000 / OPTIONS.tickRate,
-  SPAWN: 1000,
-  OFFMAPTIMER: 100,
+  SPAWN: 3000,
+  OFFMAPTIMER: 200,
   CHECKAWAIT: 0,
 };
 windows();
@@ -579,19 +577,16 @@ function drawDeInterface() {
   ctx.fillText(`Store:${DATA.store}`, CONFIG.WIDTH * 0.6, CONFIG.HEIGHT * 0.05);
   ctx.fillStyle = `rgb(255,10,10)`;
   if (OPTIONS.console == 1) {
+    ctx.fillStyle = `rgb(255,10,10)`;
     ctx.fillText(`SpeedX:${PLAYER.speedX}`, 0, CONFIG.HEIGHT * 0.02);
-    ctx.fillStyle = `rgb(255,10,10)`;
     ctx.fillText(`SpeedY:${PLAYER.speedY}`, 0, CONFIG.HEIGHT * 0.05);
-    ctx.fillStyle = `rgb(255,10,10)`;
     ctx.fillText(`mouseX:${MOUSE.startX}`, 0, CONFIG.HEIGHT * 0.08);
-    ctx.fillStyle = `rgb(255,10,10)`;
     ctx.fillText(`mouseY:${MOUSE.startY}`, 0, CONFIG.HEIGHT * 0.11);
-    ctx.fillStyle = `rgb(255,10,10)`;
     ctx.fillText(`MspeedX:${MOUSE.speedX}`, 0, CONFIG.HEIGHT * 0.14);
-    ctx.fillStyle = `rgb(255,10,10)`;
     ctx.fillText(`MspeedY:${MOUSE.speedY}`, 0, CONFIG.HEIGHT * 0.17);
-    ctx.fillStyle = `rgb(255,10,10)`;
     ctx.fillText(`PlMass:${PLAYER.mass}`, 0, CONFIG.HEIGHT * 0.2);
+    ctx.fillText(`PlX:${PLAYER.X}`, 0, CONFIG.HEIGHT * 0.23);
+    ctx.fillText(`PlY:${PLAYER.Y}`, 0, CONFIG.HEIGHT * 0.26);
   }
   if (PLAYER.GRAB == 1) {
     ctx.fillStyle = `rgb(255,0,0)`;
@@ -649,8 +644,6 @@ function drawDeInterface() {
   }
 }
 function millingAsteroids(id) {
-  // ueta если честно выходит... нужно оптими3ировать запись, но: проверяем астероды на коры центра воронки + радиус воронки (квадрат короче))))
-
   if (
     DATA.voronkaX - DATA.voronkaLenght < DATA.asteroidsX[id] &&
     DATA.voronkaX + DATA.voronkaLenght > DATA.asteroidsX[id]
@@ -689,7 +682,7 @@ function allInterface(Key) {
     `_`,
     `X`,
     `_`,
-    `_`,
+    `P`,
   ]*/
   checkFuel(PLAYER.fuel);
   switch (Key) {
@@ -861,9 +854,7 @@ function clickOnInterface(x, y) {
     }
   }
 }
-document.addEventListener(`mouseup`, () => {
-  // 0_o
-});
+
 document.addEventListener('keydown', (Key) => {
   console.log(Key.code);
 
@@ -912,11 +903,12 @@ console.log(
 //
 
 canvas.addEventListener(
-  'mousedown' || `touchstart`,
+  'mousedown',
   (e) => {
     let rect = canvas.getBoundingClientRect();
     let x = (e.clientX || e.pageX) - rect.left;
     let y = (e.clientY || e.pageY) - rect.top;
+    clickOnInterface(x, y);
     MOUSE.startX = x;
     MOUSE.startY = y;
     DATA.store -= MOUSE.speedX + MOUSE.speedY * 2;
@@ -952,37 +944,12 @@ canvas.addEventListener(
   false
 );
 canvas.addEventListener(
-  'mouseup' || `touchend `,
+  'mouseup',
   () => {
     MOUSE.speedX = 0;
     MOUSE.speedY = 0;
     MOUSE.startX = 0;
     MOUSE.startY = 0;
-  },
-  false
-);
-
-canvas.addEventListener(
-  'mousedown',
-  (e) => {
-    let rect = canvas.getBoundingClientRect();
-    let x = e.clientX - rect.left;
-    let y = e.clientY - rect.top;
-
-    if (x >= 0 && y >= 0) {
-      clickOnInterface(x, y);
-      console.log(e.clientX, e.clientY);
-    }
-  },
-  false
-);
-canvas.addEventListener(
-  'mouseup',
-  (e) => {
-    let rect = canvas.getBoundingClientRect();
-    let x = e.clientX - rect.left;
-    let y = e.clientY - rect.top;
-    console.log(`up x, y: ${x},${y}`);
   },
   false
 );
