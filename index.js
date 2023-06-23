@@ -10,7 +10,36 @@ function roundedRect(ctx, x, y, width, height, radius) {
   ctx.arcTo(x, y, x, y + radius, radius);
   ctx.stroke();
 }
-function windows() {
+const OPTIONS = {
+  stopSpawn: 1,
+  mathTick: 1,
+  draw: 1,
+  offMap: 1,
+  tickRate: 200,
+  console: 0,
+};
+const CONFIG = {
+  SCALE: devicePixelRatio,
+  WIDTH: 300,
+  HEIGHT: 600,
+  interfavePosition: 0, // 0 = vertical, 1 - horizontal
+  FPS: 60,
+  TICK: 1000 / OPTIONS.tickRate,
+  SPAWN: 3000,
+  OFFMAPTIMER: 200,
+  CHECKAWAIT: 0,
+};
+const canvas = document.getElementById(`canvas`);
+const ctx = canvas.getContext('2d');
+
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+canvas.width = CONFIG.WIDTH * CONFIG.SCALE;
+canvas.height = CONFIG.HEIGHT * CONFIG.SCALE;
+canvas.style.width = `${CONFIG.WIDTH}px`;
+canvas.style.height = `${CONFIG.HEIGHT}px`;
+ctx.scale(CONFIG.SCALE, CONFIG.SCALE);
+/* function windows() {
   const WIDTH = window.innerWidth;
   const HEIGHT = window.innerHeight;
   if (WIDTH < HEIGHT) {
@@ -22,34 +51,13 @@ function windows() {
     }
   }
 }
+*/
 // смотри на миникарту! не будь как я (с)
 /**
  * @type {HTMLCanvasElement}
  */
-const canvas = document.getElementById(`canvas`);
-const ctx = canvas.getContext('2d');
 
-ctx.textAlign = 'center';
-ctx.textBaseline = 'middle';
-const OPTIONS = {
-  stopSpawn: 1,
-  mathTick: 1,
-  draw: 1,
-  offMap: 1,
-  tickRate: 200,
-  console: 0,
-};
-const CONFIG = {
-  WIDTH: 300,
-  HEIGHT: 600,
-  interfavePosition: 0, // 0 = vertical, 1 - horizontal
-  FPS: 60,
-  TICK: 1000 / OPTIONS.tickRate,
-  SPAWN: 3000,
-  OFFMAPTIMER: 200,
-  CHECKAWAIT: 0,
-};
-windows();
+// windows();
 console.log(`${CONFIG.WIDTH},${CONFIG.HEIGHT}`);
 const BASE = {
   // я переписал формулы для лучшего понимания пропорций
@@ -909,13 +917,14 @@ canvas.addEventListener(
     let x = (e.clientX || e.pageX) - rect.left;
     let y = (e.clientY || e.pageY) - rect.top;
     clickOnInterface(x, y);
+    console.log(x, y);
     MOUSE.startX = x;
     MOUSE.startY = y;
     DATA.store -= MOUSE.speedX + MOUSE.speedY * 2;
   },
   false
 );
-
+/*
 canvas.addEventListener(
   'mousemove',
   (e) => {
@@ -943,6 +952,7 @@ canvas.addEventListener(
   },
   false
 );
+*/
 canvas.addEventListener(
   'mouseup',
   () => {
