@@ -10,7 +10,7 @@ body {
 .chatstroke {
   position: absolute;
   z-index: 100;
-  background-color: black;
+
   color: #aaa;
 }
 input {
