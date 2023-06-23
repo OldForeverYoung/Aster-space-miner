@@ -7,3 +7,14 @@ body {
   border-color: #aaa;
   margin: 0;
 }
+.chatstroke {
+  position: absolute;
+  z-index: 100;
+  background-color: black;
+  color: #aaa;
+}
+input {
+  background-color: black;
+  color: #aaa;
+  width: 70%;
+}

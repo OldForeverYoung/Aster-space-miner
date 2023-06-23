@@ -917,10 +917,12 @@ canvas.addEventListener(
     let x = (e.clientX || e.pageX) - rect.left;
     let y = (e.clientY || e.pageY) - rect.top;
     clickOnInterface(x, y);
+    /*
     console.log(x, y);
     MOUSE.startX = x;
     MOUSE.startY = y;
     DATA.store -= MOUSE.speedX + MOUSE.speedY * 2;
+    */
   },
   false
 );
