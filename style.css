@@ -14,7 +14,7 @@ body {
   color: #aaa;
 }
 input {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0);
   color: #aaa;
   width: 70%;
 }

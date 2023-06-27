@@ -32,6 +32,17 @@ const CONFIG = {
 const canvas = document.getElementById(`canvas`);
 const ctx = canvas.getContext('2d');
 
+const chat = {
+  input: document.getElementById(`playerchat`),
+  send: document.getElementById(`sendchat`),
+  messages: [],
+};
+chat.send.addEventListener(`click`, () => {
+  chat.messages.push(`${PLAYER.nickName}:${chat.input.value}`);
+  console.log(chat);
+  chat.input.value = ``;
+});
+
 ctx.textAlign = 'center';
 ctx.textBaseline = 'middle';
 canvas.width = CONFIG.WIDTH * CONFIG.SCALE;
@@ -111,6 +122,7 @@ const PLAYER = {
   POLEGRAB: CONFIG.WIDTH / 20,
   COLOR: `rgb(255,0,0)`,
   GRAB: 0, // 0 - нет цели, 1 - есть цель, 2 - цель захвачена
+  nickName: `pepega`,
 };
 const INTERFACE = {
   NAME: [
@@ -650,6 +662,20 @@ function drawDeInterface() {
       ctx.stroke();
     }
   }
+  ctx.fillStyle = `rgb(255,10,10)`;
+
+  if (chat.messages.length) {
+    for (let messages = 0; messages < chat.messages.length; messages++) {
+      ctx.fillText(
+        `${chat.messages[messages]}`,
+        0,
+        CONFIG.HEIGHT * 0.1 + CONFIG.HEIGHT * ((0.1 * messages) / 4)
+      );
+    }
+    if (chat.messages.length > 10) {
+      chat.messages.shift();
+    }
+  }
 }
 function millingAsteroids(id) {
   if (
@@ -903,6 +929,7 @@ const GAMETICKS = {
   mathTick: setInterval(mathTick, CONFIG.TICK), // расчёт
   draw: setInterval(draw, 1000 / CONFIG.FPS), //draw
   offMap: setInterval(offMap, CONFIG.OFFMAPTIMER), //out of map
+  clearChat: NaN, //chat
   // setInterval(checkGrab, 500); - ушло в mathTick()
 };
 console.log(
