@@ -37,6 +37,34 @@ const chat = {
   send: document.getElementById(`sendchat`),
   messages: [],
 };
+
+/////////////////
+//test chat
+chat.send.addEventListener('click', () => {
+  const message = chat.input.value;
+
+  // Отправляем сообщение на сервер
+  fetch('http://localhost:3000/messages', {
+    method: 'POST',
+    mode: 'cors', // Режим CORS
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ message }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Сообщение отправлено:', data);
+      // Дополнительные действия после успешной отправки сообщения
+    })
+    .catch((error) => {
+      console.error('Ошибка при отправке сообщения:', error);
+      // Обработка ошибки отправки сообщения
+    });
+});
+//end
+/////////////////
+
 chat.send.addEventListener(`click`, () => {
   chat.messages.push(`${PLAYER.nickName}:${chat.input.value}`);
   console.log(chat);
