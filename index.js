@@ -41,7 +41,7 @@ const chat = {
 /////////////////
 //test chat
 chat.send.addEventListener('click', () => {
-  const message = chat.input.value;
+  const message = `${PLAYER.nickName}:${chat.input.value}`;
 
   // Отправляем сообщение на сервер
   fetch('http://localhost:3000/messages', {
